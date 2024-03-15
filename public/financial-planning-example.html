@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Financial Planning App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    h2 {
+      color: #333;
+    }
+
+    #output {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h2>User Profile</h2>
+  <button onclick="getUserProfile()">Get User Profile</button>
+  <div id="userprofileOutput"></div>
+
+  <h2>User Accounts</h2>
+  <button onclick="getUserAccounts()">Get User Accounts</button>
+  <div id="accountsOutput"></div>
+
+  <h2>User Transactions</h2>
+  <button onclick="getUserTransactions()">Get User Transactions</button>
+  <div id="transactionsOutput"></div>
+
+  <script>
+    let apiUrl = 'https://894ada66-0ecc-4279-9681-25f013958a57.mock.pstmn.io';
+
+    function displayOutput(endpoint, data) {
+      const outputDiv = document.getElementById(endpoint.toLowerCase() + 'Output');
+      outputDiv.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+    }
+
+    function getUserProfile() {
+      fetch(`${apiUrl}/user/profile`, {method: "GET"})
+        .then(response => response.json())
+        .then(data => displayOutput('UserProfile', data))
+        .catch(error => console.error('Error fetching user profile:', error));
+    }
+
+    function getUserAccounts() {
+      fetch(`${apiUrl}/user/accounts`, {method: "GET"})
+        .then(response => response.json())
+        .then(data => displayOutput('accounts', data))
+        .catch(error => console.error('Error fetching user accounts:', error));
+    }
+
+    function getUserTransactions() {
+      fetch(`${apiUrl}/user/transactions`, {method: "GET"})
+        .then(response => response.json())
+        .then(data => displayOutput('transactions', data))
+        .catch(error => console.error('Error fetching user transactions:', error));
+    }
+  </script>
+</body>
+</html>

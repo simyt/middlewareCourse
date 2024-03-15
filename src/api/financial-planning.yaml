@@ -1,0 +1,147 @@
+openapi: 3.0.0
+info:
+  title: Financial Planning API
+  description: API for accessing user profile, account details, and transactions
+  version: 1.0.0
+
+servers:
+  - url: https://894ada66-0ecc-4279-9681-25f013958a57.mock.pstmn.io
+    description: Production Server
+
+paths:
+  /user/profile:
+    get:
+      summary: Retrieve User Profile
+      description: Get details of the authenticated user's profile.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              example:
+                userId: "123456"
+                firstName: "John"
+                lastName: "Doe"
+                email: "john.doe@example.com"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              example:
+                message: "Unauthorized access"
+
+  /user/accounts:
+    get:
+      summary: Retrieve User Accounts
+      description: Get a list of accounts associated with the authenticated user.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              example:
+                - accountId: "789012"
+                  accountType: "Savings"
+                  balance: 5000.00
+                - accountId: "345678"
+                  accountType: "Checking"
+                  balance: 2500.50
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              example:
+                message: "Unauthorized access"
+
+  /user/transactions:
+    get:
+      summary: Retrieve User Transactions
+      description: Get a list of transactions for the authenticated user.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              example:
+                - transactionId: "111222"
+                  date: "2022-03-01"
+                  amount: 100.00
+                  description: "Purchase at Store A"
+                - transactionId: "333444"
+                  date: "2022-03-05"
+                  amount: -50.50
+                  description: "Withdrawal from ATM"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              example:
+                message: "Unauthorized access"
+
+components:
+  schemas:
+    UserProfile:
+      type: object
+      properties:
+        userId:
+          type: string
+          description: Unique identifier for the user.
+        firstName:
+          type: string
+          description: User's first name.
+        lastName:
+          type: string
+          description: User's last name.
+        email:
+          type: string
+          format: email
+          description: User's email address.
+
+    Account:
+      type: object
+      properties:
+        accountId:
+          type: string
+          description: Unique identifier for the account.
+        accountType:
+          type: string
+          description: Type of account (e.g., savings, checking).
+        balance:
+          type: number
+          format: float
+          description: Current balance of the account.
+
+    Transaction:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: Unique identifier for the transaction.
+        date:
+          type: string
+          format: date
+          description: Date of the transaction.
+        amount:
+          type: number
+          format: float
+          description: Transaction amount.
+        description:
+          type: string
+          description: Transaction description.
+
+    AccountList:
+      type: array
+      items:
+        $ref: '#/components/schemas/Account'
+
+    TransactionList:
+      type: array
+      items:
+        $ref: '#/components/schemas/Transaction'
+
+  Error:
+    type: object
+    properties:
+      message:
+        type: string
+        description: Error message.
