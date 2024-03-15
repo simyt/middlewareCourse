@@ -1,7 +1,7 @@
 //handle requests for user information
 
 const express = require("express")
-const database = require("../../database/mock_data")
+const database = require("../database/mock_data")
 
 const router = express.Router()
 
